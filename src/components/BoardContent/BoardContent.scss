@@ -9,9 +9,11 @@ $border-radius-card:5px;
 
 
 .board-content{
+    height: $boar-content-height;
     display: flex;
     margin: 0 $gap $gap;
     overflow-x: auto;
+    overflow-y: hidden;
     &::-webkit-scrollbar{
       -webkit-appearance: none;
     }
@@ -21,6 +23,11 @@ $border-radius-card:5px;
     &::-webkit-scrollbar-thumb{
       background-color: darken($common-element-bg, 15);
       border-radius: 8px;
+    }
+    .column-drop-preview{
+      background-color: rgba(150, 150, 200, 0.1);
+      border: 1px dashed #abc;
+      margin: 5px;
     }
     
 }
