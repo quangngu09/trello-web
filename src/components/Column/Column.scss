@@ -1,5 +1,5 @@
 @import '_setting.scss';
-$list-color:#ebecf0;
+
 $column-header-height:46px;
 $column-footer-height:46px;
 $border-radius-card:5px;
@@ -15,7 +15,7 @@ $column-height: calc(#{$boar-content-height} - #{$gap * 2});
     }
    ;
     >*{
-        background-color: $list-color;
+        background-color: $column-bg-color;
         color: $app-main-text-color;
         padding:0 8px;
     }
@@ -56,8 +56,8 @@ $column-height: calc(#{$boar-content-height} - #{$gap * 2});
         width: 11px;
       }
       &::-webkit-scrollbar-thumb{
-        background-color: darken($list-color, 15);
-        border-right: 5px solid $list-color;
+        background-color: darken($column-bg-color, 15);
+        border-right: 5px solid $column-bg-color;
       }
       .card-ghost {
         transition: transform 0.18s ease;
