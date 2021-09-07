@@ -65,16 +65,16 @@ function BoardContent() {
   }
 
   const addNewColumn = () => {
-    if(!newColumnTitle){
+    if (!newColumnTitle) {
       newColumnInputRef.current.focus();
       return
     }
     const newColumnToAdd = {
       id: Math.random().toString(36).substr(2, 5),
-      boardId:board.id,
+      boardId: board.id,
       title: newColumnTitle.trim(),
-      cardOrder:[],
-      cards:[],
+      cardOrder: [],
+      cards: [],
     }
     let newColumns = [...columns]
     newColumns.push(newColumnToAdd)
@@ -86,6 +86,27 @@ function BoardContent() {
     setBoard(newBoard)
     setNewColumnTitle('')
     toogleOpenNewColumnForm()
+  }
+
+  const onUpdateColumn = (newColumnToUpdate) => {
+    const columnIdToUpdate = newColumnToUpdate.id
+
+    let newColumns = [...columns]
+    const columnIndexToUpDate = newColumns.findIndex(i => i.id === columnIdToUpdate)
+    if (newColumnToUpdate._destroy) {
+      //remove column
+      newColumns.splice(columnIndexToUpDate, 1)
+    } else {
+      //update column
+      newColumns.splice(columnIndexToUpDate, 1, newColumnToUpdate)
+    }
+
+    let newBoard = { ...board }
+    newBoard.columnOrder = newColumns.map(c => c.id)
+    newBoard.columns = newColumns
+
+    setColumns(newColumns)
+    setBoard(newBoard)
   }
 
   return (
@@ -103,7 +124,7 @@ function BoardContent() {
       >
         {columns.map((column, index) => (
           <Draggable key={index}>
-            <Column column={column} onCardDrop={onCardDrop} />
+            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn} />
           </Draggable>
         ))}
       </Container>
