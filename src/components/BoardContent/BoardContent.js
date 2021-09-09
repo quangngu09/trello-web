@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Container, Draggable } from "react-smooth-dnd";
 import { Container as BootstrapContainer, Row, Col, Form, Button } from 'react-bootstrap';
 import './BoardContent.scss';
@@ -15,8 +15,10 @@ function BoardContent() {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
   const newColumnInputRef = useRef(null)
-
-  const onNewColumnTitleChange = useCallback((e) => setNewColumnTitle(e.target.value), []);
+  const toogleOpenNewColumnForm = () => {
+    setOpenNewColumnForm(!openNewColumnForm)
+  }
+  const onNewColumnTitleChange = (e) => setNewColumnTitle(e.target.value);
 
   useEffect(() => {
     const boardFromDB = initialData.boards.find(board => board.id === 'board-1')
@@ -38,7 +40,6 @@ function BoardContent() {
   }
 
   const onColumnDrop = (dropResult) => {
-    console.log(dropResult)
     let newColumns = [...columns]
     newColumns = applyDrag(newColumns, dropResult)
 
@@ -60,9 +61,6 @@ function BoardContent() {
     }
   }
 
-  const toogleOpenNewColumnForm = () => {
-    setOpenNewColumnForm(!openNewColumnForm)
-  }
 
   const addNewColumn = () => {
     if (!newColumnTitle) {
@@ -109,6 +107,7 @@ function BoardContent() {
     setBoard(newBoard)
   }
 
+
   return (
     <div className="board-content">
       <Container
@@ -124,7 +123,11 @@ function BoardContent() {
       >
         {columns.map((column, index) => (
           <Draggable key={index}>
-            <Column column={column} onCardDrop={onCardDrop} onUpdateColumn={onUpdateColumn} />
+            <Column
+              column={column}
+              onCardDrop={onCardDrop}
+              onUpdateColumn={onUpdateColumn}
+            />
           </Draggable>
         ))}
       </Container>
@@ -150,7 +153,7 @@ function BoardContent() {
                 onKeyDown={event => (event.key === "Enter") && addNewColumn()}
               />
               <Button variant="success" size="sm" onClick={addNewColumn} >Add column</Button>
-              <span className="cancel-new-column" onClick={toogleOpenNewColumnForm}><i className="fa fa-trash icon" /></span>
+              <span className="cancel-icon" onClick={toogleOpenNewColumnForm}><i className="fa fa-trash icon" /></span>
             </Col>
           </Row>
         }
